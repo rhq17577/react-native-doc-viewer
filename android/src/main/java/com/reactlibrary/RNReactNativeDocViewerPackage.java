@@ -1,5 +1,5 @@
 
-package com.philipphecht;
+package com.reactlibrary;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,11 +10,10 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
-
-public class RNDocViewerPackage implements ReactPackage {
+public class RNReactNativeDocViewerPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNDocViewerModule(reactContext));
+      return Arrays.<NativeModule>asList(new RNReactNativeDocViewerModule(reactContext));
     }
 
     // Deprecated RN 0.47

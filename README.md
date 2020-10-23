@@ -25,7 +25,7 @@ Changelog:
 2.7.3 -   Example Local File
 2.7.2 -   Progress Download Feedback in example and Done Button Callback IOS
 2.7.1 -   Fix Progress IOS Download
-2.6.9 -   Progress IOS DOWNLOAD Document Callback in Native Code
+2.6.9 -   Progress IOS DOWNLOAD Document Callback in Native Code 
 2.6.0 -   Android Openbase64
 2.5.2 -   OpenDocAndroid
 2.5.1 -   Cleanings
@@ -42,7 +42,7 @@ Changelog:
 
 `$ react-native link react-native-doc-viewer`
 
-### CocoaPods installation
+### CocoaPods installation 
 
 If your project uses CocoaPods to manage React installation (especially with Expo-detached project), most likely you will run into issue with header files not found as described here (https://docs.expo.io/versions/latest/guides/expokit.html#changing-native-dependencies "Changing Native Dependencies"). It will be helpful to follow these steps to have it compiled successfully:
 
@@ -60,26 +60,26 @@ If your project uses CocoaPods to manage React installation (especially with Exp
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-doc-viewer` and add `RNDocViewer.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNDocViewer.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Linked Frameworks and Libraries must have this 2 Libraries (AssetsLibrary.framework & QuickLook.framework). When not you have to add them.
+2. Go to `node_modules` ➜ `react-native-doc-viewer` and add `RNReactNativeDocViewer.xcodeproj`
+3. In XCode, in the project navigator, select your project. Add `libRNReactNativeDocViewer.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+4. Linked Frameworks and Libraries must have this 2 Libraries (AssetsLibrary.framework & QuickLock.framework). When not you have to add them.
 
    ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/screenshot_xcode_addlibrary.png "Xcode add Library")
-
+   
    ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/screenshot_xcode_addlibrary2.png "Xcode add Library")
-
+   
 5.  When you Show http Links don't forget to set APP Transport Security Settings ->
     Allow Arbitrary Loads to YES
 
 ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/plist_file.png "Plist")
-
+   
 6. Run your project (`Cmd+R`)<
 
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainApplication.java`
-  - Add `import com.philipphecht.RNDocViewerPackage;` to the imports at the top of the file
-  - Add `new RNDocViewerPackage()` to the list returned by the `getPackages()` method
+  - Add `import com.reactlibrary.RNReactNativeDocViewerPackage;` to the imports at the top of the file
+  - Add `new RNReactNativeDocViewerPackage()` to the list returned by the `getPackages()` method
 2. Append the following lines to `android/settings.gradle`:
   	```
   	include ':react-native-doc-viewer'
@@ -95,7 +95,7 @@ If your project uses CocoaPods to manage React installation (especially with Exp
 
 1. In Visual Studio add the `RNReactNativeDocViewer.sln` in `node_modules/react-native-react-native-doc-viewer/windows/RNReactNativeDocViewer.sln` folder to their solution, reference from their app.
 2. Open up your `MainPage.cs` app
-  - Add `using com.Philipphecht.RNReactNativeDocViewer;` to the usings at the top of the file
+  - Add `using Com.Reactlibrary.RNReactNativeDocViewer;` to the usings at the top of the file
   - Add `new RNReactNativeDocViewerPackage()` to the `List<IReactPackage>` returned by the `Packages` method
 
 
@@ -146,7 +146,7 @@ var SavePath = Platform.OS === 'ios' ? RNFS.MainBundlePath : RNFS.DocumentDirect
 export default class DocumentViewerExample extends Component {
  constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       animating: false,
       progress: "",
       donebuttonclicked: false,
@@ -170,8 +170,8 @@ export default class DocumentViewerExample extends Component {
       (Event) => {
         console.log("Progress - Download "+Event.progress  + " %")
         this.setState({progress: Event.progress + " %"});
-      }
-
+      } 
+      
     );
   }
 
@@ -183,105 +183,34 @@ export default class DocumentViewerExample extends Component {
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
   */
   handlePress = () => {
-    this.setState({animating: true});
-    if(Platform.OS === 'ios'){
+   if(Platform.OS === 'ios'){
+      //IOS
       OpenFile.openDoc([{
-        url:"https://calibre-ebook.com/downloads/demos/demo.docx",
-        fileNameOptional:"test filename"
+        url:"https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls",
+        fileNameOptional:"sample-test"
       }], (error, url) => {
          if (error) {
-          this.setState({animating: false});
+           console.error(error);
          } else {
-          this.setState({animating: false});
            console.log(url)
          }
        })
     }else{
       //Android
-      this.setState({animating: true});
       OpenFile.openDoc([{
-        url:"https://www.huf-haus.com/fileadmin/Bilder/Header/ART_3/Header_HUF_Haus_ART_3___1_.jpg", // Local "file://" + filepath
+        url:"http://mail.hartl-haus.at/uploads/tx_hhhouses/htf13_classic153s(3_giebel_haus).jpg", // Local "file://" + filepath
         fileName:"sample",
         cache:false,
         fileType:"jpg"
       }], (error, url) => {
          if (error) {
-          this.setState({animating: false});
            console.error(error);
          } else {
-          this.setState({animating: false});
            console.log(url)
          }
        })
-    }
-
-  }
-
-
-  /*
-  * Handle Local File Method
-  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url the File Extension is missing.
-  */
-  handlePressLocal = () => {
-    this.setState({animating: true});
-    if(Platform.OS === 'ios'){
-        OpenFile.openDoc([{url:SavePath+"/react-native-logo.jpg",
-        fileNameOptional:"test filename"
-      }], (error, url) => {
-         if (error) {
-          this.setState({animating: false});
-         } else {
-          this.setState({animating: false});
-           console.log(url)
-         }
-       })
-    }else{
-      OpenFile.openDoc([{url:SavePath+"/demo.jpg",
-        fileName:"sample",
-        cache:false,
-        fileType:"jpg"
-      }], (error, url) => {
-         if (error) {
-          this.setState({animating: false});
-         } else {
-          this.setState({animating: false});
-           console.log(url)
-         }
-       })
-
     }
   }
-
-    handlePressLocalXLS = () => {
-      this.setState({animating: true});
-      if(Platform.OS === 'ios'){
-          OpenFile.openDoc([{url:SavePath+"/SampleXLSFile_19kb.xls",
-          fileNameOptional:"Sample XLS 94-2003"
-        }], (error, url) => {
-           if (error) {
-            this.setState({animating: false});
-           } else {
-            this.setState({animating: false});
-             console.log(url)
-           }
-         })
-      }else{
-        OpenFile.openDoc([{url:SavePath+"/demo.jpg",
-          fileName:"sample",
-          cache:false,
-          fileType:"jpg"
-        }], (error, url) => {
-           if (error) {
-            this.setState({animating: false});
-           } else {
-            this.setState({animating: false});
-             console.log(url)
-           }
-         })
-
-      }
-    }
-
 
   /*
   * Binary in URL
@@ -289,8 +218,8 @@ export default class DocumentViewerExample extends Component {
   * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
   */
   handlePressBinaryinUrl = () => {
-    this.setState({animating: true});
     if(Platform.OS === 'ios'){
+      //IOS
       OpenFile.openDocBinaryinUrl([{
         url:"https://storage.googleapis.com/need-sure/example",
         fileName:"sample",
@@ -298,25 +227,43 @@ export default class DocumentViewerExample extends Component {
       }], (error, url) => {
           if (error) {
             console.error(error);
-            this.setState({animating: false});
           } else {
             console.log(url)
-            this.setState({animating: false});
           }
         })
     }else{
-      OpenFile.openDocBinaryinUrl([{
-        url:"https://storage.googleapis.com/need-sure/example",
-        fileName:"sample",
-        fileType:"xml",
-        cache:true
+      //Android
+      Alert.alert("Coming soon for Android")
+    }
+  }
+  
+  /*
+  * Handle local File Method
+  * fileType Default == "" you can use it, to set the File Extension (pdf,doc,xls,ppt etc) when in the Url you dont have an File Extensions
+  */
+  handlePressLocalFile = () => {
+    if(Platform.OS === 'ios'){
+        OpenFile.openDoc([{
+        url:SavePath+"filename.pdf",
+        fileNameOptional:"sample"
       }], (error, url) => {
           if (error) {
             console.error(error);
-            this.setState({animating: false});
           } else {
             console.log(url)
-            this.setState({animating: false});
+          }
+        })
+    }else{
+      //Android
+      OpenFile.openDoc([{
+        url:SavePath+"filename.pdf",
+        fileName:"sample",
+        cache:true /*Use Cache Folder Android*/
+      }], (error, url) => {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(url)
           }
         })
     }
@@ -355,7 +302,7 @@ export default class DocumentViewerExample extends Component {
           }
         })
     }
-
+    
     /*
   * Video File
   */
@@ -372,8 +319,8 @@ export default class DocumentViewerExample extends Component {
       Alert.alert("Android coming soon");
     }
   }
-
-
+  
+  
   <Button
           onPress={this.handlePress.bind(this)}
           title="Press Me Open Doc Url"
@@ -382,16 +329,6 @@ export default class DocumentViewerExample extends Component {
         <Button
           onPress={this.handlePressBinaryinUrl.bind(this)}
           title="Press Me Open BinaryinUrl"
-          accessibilityLabel="See a Document"
-        />
-         <Button
-          onPress={this.handlePressLocal.bind(this)}
-          title="Press Me Open Doc Path"
-          accessibilityLabel="See a Document"
-        />
-        <Button
-          onPress={this.handlePressLocalXLS.bind(this)}
-          title="Press Me Open XLS DOC Path"
           accessibilityLabel="See a Document"
         />
         <Button
@@ -418,16 +355,20 @@ export default class DocumentViewerExample extends Component {
 
 ![Alt text](https://raw.githubusercontent.com/philipphecht/react-native-doc-viewer/master/Screenshots/Screenshot2.png "Screenshot 3")
 
-
+ 
  Copyright (c) 2017-present, Philipp Hecht
  philipp.hecht@icloud.com
-
+ 
 
 ## Donation
-If this project help you reduce time to develop, you can give me a cup of coffee :)
+If this project help you reduce time to develop, you can give me a cup of coffee :) 
 
-Etherum wallet: 0x124F99647a904240945d8B582eEf1E3CD6D00a8a
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A8YE92K9QM7NA)
+
+Bitcoin wallet: 122dhCT98R6jrP5ahCKMRA1UupawtU9cVP
+
+Etherum wallet: 0x68b93b03eb61a27b125416a5963f1e17c3ebad21
 
 
 
-
+  
